@@ -9,7 +9,7 @@ export const onNoMatches = () => Notiflix.Notify.failure(
 );
       
 export const endOfQuery = () =>  Notiflix.Notify.info(
-      "You have reached end of search query. No more matches left"
+      "You are close to the end of search query"
 );
     
 export const onEmptyQuery = () => Notiflix.Notify.failure('Enter something to start search!');

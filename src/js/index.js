@@ -39,7 +39,7 @@ async function onSubmit(event) {
         amountOfPages -= 1;
     }
       lightbox.refresh();
-      window.addEventListener('scroll', throttle(500, handleInfiniteScroll) )
+      window.addEventListener('scroll', throttle(1000, handleInfiniteScroll) )
   } catch (error) {
     notifications.onError();
     console.log(error);
@@ -61,20 +61,28 @@ async function onScrollLoad() {
 
 
 
-function handleInfiniteScroll(){
-  const endOfPage = window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 150;
+function handleInfiniteScroll() {
+    const endOfPage = window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 150;
     
-    if (amountOfPages < 0.5) {
-      notifications.endOfQuery()
-      window.removeEventListener('scroll', throttle(handleInfiniteScroll, 500) )
-      refs.loaderRef.classList.add('hidden')
-      return
+    if (amountOfPages < 0) {
+
+        window.removeEventListener('scroll', throttle(1000, handleInfiniteScroll))
+        refs.loaderRef.classList.add('hidden')
+        return
     }
+      
+    if (amountOfPages < 1) {
+    notifications.endOfQuery()
+    }
+      
+    
     if (endOfPage) {
         onScrollLoad();
         console.log('loaded');
-        console.log('pages left:', amountOfPages );
+        console.log('pages left:', amountOfPages);
+        return
     }
+    
 };
 
 
