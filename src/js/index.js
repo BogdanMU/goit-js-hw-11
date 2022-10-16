@@ -39,7 +39,7 @@ async function onSubmit(event) {
         amountOfPages -= 1;
     }
       lightbox.refresh();
-      window.addEventListener('scroll', throttle(1000, handleInfiniteScroll) )
+      window.addEventListener('scroll', throttle(500, handleInfiniteScroll) )
   } catch (error) {
     notifications.onError();
     console.log(error);
@@ -66,7 +66,7 @@ function handleInfiniteScroll() {
     
     if (amountOfPages < 0) {
 
-        window.removeEventListener('scroll', throttle(1000, handleInfiniteScroll))
+        window.removeEventListener('scroll', throttle(500, handleInfiniteScroll))
         refs.loaderRef.classList.add('hidden')
         return
     }
