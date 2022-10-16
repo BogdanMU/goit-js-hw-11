@@ -65,7 +65,7 @@ async function onScrollLoad() {
 
 
 function handleInfiniteScroll(){
-  const endOfPage = window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 550;
+  const endOfPage = window.innerHeight + window.pageYOffset >= document.body.offsetHeight;
  
     if (endOfPage) {
       onScrollLoad();
