@@ -26,7 +26,7 @@ async function onSubmit(event) {
   try {
     const searchData = await pixabay.getPictures(searchQuery);
       const { hits, totalHits } = searchData;
-      amountOfPages = totalHits / 40;
+      amountOfPages = totalHits / 40 ;
     if (totalHits === 0) {
       notifications.onNoMatches()
       return;
@@ -35,7 +35,8 @@ async function onSubmit(event) {
     const markup = hits.map(item => createMarkup(item)).join('');
     refs.galleryRef.innerHTML = markup
     if (totalHits > 40) {
-      pixabay.page += 1;
+        pixabay.page += 1;
+        amountOfPages -= 1;
     }
       lightbox.refresh();
       window.addEventListener('scroll', throttle(500, handleInfiniteScroll) )
@@ -50,26 +51,34 @@ async function onScrollLoad() {
   const response = await pixabay.getPictures(pixabay.query);
     const { hits } = response; 
     const markup = hits.map(item => createMarkup(item)).join('');
-    pixabay.page += 1;
-    amountOfPages -=1
-   
+    
   refs.galleryRef.insertAdjacentHTML('beforeend', markup);
     lightbox.refresh(); 
-  if (amountOfPages < 1) {
-      notifications.endOfQuery()
-      window.removeEventListener('scroll', throttle(500, handleInfiniteScroll) )
-      refs.loaderRef.classList.add('hidden')
-  }
+  
+    pixabay.page += 1;
+    amountOfPages -=1
 }
 
 
 
 function handleInfiniteScroll(){
-  const endOfPage = window.innerHeight + window.pageYOffset >= document.body.offsetHeight;
- 
+  const endOfPage = window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 150;
+    
+    if (amountOfPages < 0.5) {
+      notifications.endOfQuery()
+      window.removeEventListener('scroll', throttle(handleInfiniteScroll, 500) )
+      refs.loaderRef.classList.add('hidden')
+      return
+    }
     if (endOfPage) {
-      onScrollLoad();
-  }
+        onScrollLoad();
+        console.log('loaded');
+        console.log('pages left:', amountOfPages );
+    }
 };
+
+
+
+// _.throttle(func, wait, options)
 
     
