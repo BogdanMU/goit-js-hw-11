@@ -38,7 +38,7 @@ async function onSubmit(event) {
       pixabay.page += 1;
     }
       lightbox.refresh();
-      window.addEventListener('scroll', throttle(3000, handleInfiniteScroll) )
+      window.addEventListener('scroll', throttle(500, handleInfiniteScroll) )
   } catch (error) {
     notifications.onError();
     console.log(error);
@@ -57,7 +57,7 @@ async function onScrollLoad() {
     lightbox.refresh(); 
   if (amountOfPages < 1) {
       notifications.endOfQuery()
-      window.removeEventListener('scroll', throttle(3000, handleInfiniteScroll) )
+      window.removeEventListener('scroll', throttle(500, handleInfiniteScroll) )
       refs.loaderRef.classList.add('hidden')
   }
 }
